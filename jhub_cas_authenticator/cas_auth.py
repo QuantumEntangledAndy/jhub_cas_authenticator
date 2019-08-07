@@ -53,6 +53,12 @@ class CASLoginHandler(BaseHandler):
             qs_map = dict(service=cas_service_url)
             qs = urllib.parse.urlencode(qs_map)
             url = "{0}?{1}".format(self.authenticator.cas_login_url, qs)
+            # BEGIN EDIT CU CAS
+            # Secret and ID in header
+            self.set_header('DeeAppID', self.authenticator.CUAppId)
+            self.set_header('DeeAppSecret', self.authenticator.CUAppSecret)
+            self.set_header('DeeTicket', 'DEMO-TICKET')
+            # END Edit
             app_log.debug("Redirecting to CAS to get service ticket: {0}".format(url))
             self.redirect(url)
             return
